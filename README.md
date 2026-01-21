@@ -6,8 +6,9 @@ HomeWork 1:
 Temperature conversion. This first "Program" is meant to demonstrate my use of Decision tree's, basic arithmetic, and use of '''If/ELIF/ELSE''' in my program to prompt the user for a temperature value they want to convert.
 I then prompt them at to Which value (Farenheit/Celsius) to convert to and to enter the choice as either C or F.
 
-Upon that, I use '''IF/ELIF/ELSE''' to compare between the choices. So it'll look like this:
-''' if tempChoice == "C":
+Upon that, I use ```IF/ELIF/ELSE``` to compare between the choices. So it'll look like this:
+```
+ if tempChoice == "C":
       then TempVal = degF (Degrees in Farenheit)
       Convert degF to Celsius via arithmetic
       print degC 
@@ -16,5 +17,4 @@ Upon that, I use '''IF/ELIF/ELSE''' to compare between the choices. So it'll loo
       Convert DegC to Farenheit via arithmetic
     else
       print error
-
-'''
+```
