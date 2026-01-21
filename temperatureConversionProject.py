@@ -3,8 +3,6 @@
 # Assignment Decisions and Temperature Conversion
 
 #Prompt for temperature value
-from random import choice
-
 
 tempVal = float(input("Please enter the temperature value to convert: "))
 print()
@@ -32,4 +30,5 @@ elif tempChoice == "F":
     print("The result of this conversion is: ", tempVal, "C to", degF, "F")
 
 else:
+
     print("Error: Please enter either F or C.")
