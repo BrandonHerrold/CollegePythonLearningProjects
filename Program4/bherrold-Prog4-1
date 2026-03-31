@@ -20,15 +20,18 @@
 #
 
 import csv
+def introduction():
+    print('''
+Welcome to the Marathon Runners Race Time Program
+In this program you can read and write into the file for:
 
-print(''' Welcome to the Marathon Runners Race Time Program
-      
-      In this program you can read and write into the file for:
-      
-        Each runners and their times in the following three marathons: 
+Each runners and their times in the following three marathons: 
             Boston, Chicago, and New York.
-      ''')
+      
+===================================================================
+''')
 
+#Main Function
 def main():
     filename = "runners.txt"
     runners = read_data(filename)
@@ -47,22 +50,23 @@ def main():
             display_all_results(runners)
 
         elif choice == "2":
-            Display_runner_time(runners)
+            display_runner_time(runners)
+
+
+        elif choice == "4":
+            store_data_and_exit(filename, runners)
+
+            print(input("Press Enter to exit the program..."))
+            break
 
 ''' Commenting this out for testing purposes
 #       elif choice == "3":
 #           runners = add_runner(runners)
-#
-#        elif choice == "4":
-#            Store_data_and_close(filename, runners)
-#            print("\n Runner data saved successfully.")
-#
-#            print(input("Press Enter to exit the program..."))
-#            print("\nHave a good day, goodbye...")
-#            break
+# 
 '''
 
-#Function 1 -- Which is meant to read the data
+
+#Function 1 - Which is meant to read the data
 def read_data(filename):
 
     # Create empty list for runner dictionaries
@@ -73,31 +77,34 @@ def read_data(filename):
         infile = open(filename, "r", newline="")
 
         #Read as csv-formatting
-        reader = csv.DictReader(infile, fieldnames=["name", "Boston", "Chicago", "New York"])
+        reader = csv.DictReader(infile, fieldnames=["Name", "Boston", "Chicago", "New York"])
 
         #Loops through each row
         for row in reader:
-            dict = {}
-            dict["name"] = row["Name"]
-            dict["Boston"] = int(row["Boston"])
-            dict["Chicago"] = int(row["Chicago"])
-            dict["New York"] = int(row["New York"])
+            d = {}
+            d["Name"] = row["Name"]
+            d["Boston"] = int(row["Boston"])
+            d["Chicago"] = int(row["Chicago"])
+            d["New York"] = int(row["New York"])
 
             #Appends the dictionary to the list
-            runners.append(dict)
+            runners.append(d)
 
-            #Wanted to get a debug checkpoint to see if the file will fail, if it does, it shows file found, and number of rows
-            print("\nFile found, loaded successfully.")
-            print("Total Runners in file: ", len(runners))
+        infile.close()
+
+        #Checkpoint for file load
+        print("\nrunners.txt has loaded successfully.")
+        print("Total Runners in file: ", len(runners), "\n")
 
     except IOError:
         print("\nError: runners.txt was unable to open.\n")
 
+        
     #Return the new appended List
     return runners
 
 
-#Function 2 -- This will display ALL data for the runners
+#Function 2 - This will display ALL data for the runners
 def display_all_results(runners):
         if len(runners) == 0:
             print("\nNo runner data is available.")
@@ -113,7 +120,7 @@ def display_all_results(runners):
 
         print()
 
-#Function 3 - Individual Runner Time check and average
+#Function 3 - Individual Runner Time check
 def display_runner_time(runners):
     if len(runners) == 0:
         print("\nNo runner data is available.")
@@ -124,20 +131,42 @@ def display_runner_time(runners):
 
         #Loop to check for runner in dictionary
     for runner in runners:    
+        found = False        
         
          #Check for matching name
         if runner["Name"].lower() == runner_name.lower():
-            found = False
-
+                     
             #Calculate the runners average run time in minutes
             num_of_races = 3    #Boston, Chicago, New York
             total_run_times = runner["Boston"] + runner["Chicago"] + runner["New York"]
             average_time = round(total_run_times / num_of_races)
 
             #Display the runner name, and then run time
-            print("\n Runner name: %s" % runner["Name"] + ": Average Run time: %d minutes\n" % average_time)
-            found = True
+            print("\n Runner name: %s" % runner["Name"] + "\n Average Run time: %d minutes\n" % average_time)
+            found = True    
             break
+    if found == False:
+        print("\nRunner not found.\n")
+
+def store_data_and_exit(filename, runners):
+    try:
+        #Open file to write to
+        outfile = open(filename, "w", newline= "")
+
+        #Write to file with the csv-format
+        fieldnames = ["Name", "Boston", "Chicago", "New York"] 
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+
+        #Write each runner dictionary to the file
+        for runner in runners:
+            writer.writerow(runner)
+
+        outfile.close()
+        print("\nRunner data has been saved.")
+
+    except IOError:
+        print("\nError: The data was unable to be saved to the data file.")
         
-      if found == False
-            print("\nRunner not found.\n")
+
+main()
+introduction()
