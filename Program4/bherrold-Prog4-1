@@ -1,14 +1,58 @@
 # Brandon Herrold
 # CIT 144
-# Program 4
+# Program 4 - List of Dictionaries
 # Date: 03/30/2026
 # About:
 # This program reads runner marathon data from a comma-separated text file
 # into a list of dictionaries using csv.DictReader().
+# runners.txt is formatted as a CSV
+#
+# Goal:
+# Allow users to read and write to the runners.txt file.
+# Input will allow 4 choices:
+#   1. Display all data, for all races.
+#   2. Display a runners individual race time average (in minutes)
+#   3. Add a new runner and race data
+#   4. Save and Exit (After writing to file.)
+#
 
 import csv
 
-print(''' Welcome to the Marathon runners entry form.
-      /nIn this program you can read and write into the accompanied text document
-      /nrunner neames and their times in the following three marathons: Boston, Chicago, and New York.
+print(''' Welcome to the Marathon Runners Race Time Program
+      
+      In this program you can read and write into the file for:
+      
+        Each runners and their times in the following three marathons: 
+            Boston, Chicago, and New York.
       ''')
+
+def main():
+    filename = "runners.txt"
+    runners = read_data(filename)
+
+    while True:
+        
+        print('''Menu Options. Choose 1, 2, 3, or 4 to continue.
+                    1. Display all runners and times for their races.
+                    2. Display a runners individual race average (in minutes)
+                    3. Add a new runner and race time
+                    4. Save and Exit.                               ''')
+        
+        choice = input("\n Please Enter your choice, 1, 2, 3, or 4: ")
+
+        if choice == "1":
+            display_all_results(runners)
+
+        elif choice == "2":
+            Display_runner_time(runners)
+
+        elif choice == "3":
+            runners = add_runner(runners)
+
+        elif choice == "4":
+            Store_data_and_close(filename, runners)
+            print("\n Runner data saved successfully.")
+
+            print(input("Press Enter to exit the program..."))
+            print("\nHave a good day, goodbye...")
+            break
