@@ -86,6 +86,10 @@ def read_data(filename):
             #Appends the dictionary to the list
             runners.append(dict)
 
+            #Wanted to get a debug checkpoint to see if the file will fail, if it does, it shows file found, and number of rows
+            print("\nFile found, loaded successfully.")
+            print("Total Runners in file: ", len(runners))
+
     except IOError:
         print("\nError: runners.txt was unable to open.\n")
 
@@ -123,7 +127,8 @@ def display_runner_time(runners):
         
          #Check for matching name
         if runner["Name"].lower() == runner_name.lower():
-                     
+            found = False
+
             #Calculate the runners average run time in minutes
             num_of_races = 3    #Boston, Chicago, New York
             total_run_times = runner["Boston"] + runner["Chicago"] + runner["New York"]
@@ -131,6 +136,8 @@ def display_runner_time(runners):
 
             #Display the runner name, and then run time
             print("\n Runner name: %s" % runner["Name"] + ": Average Run time: %d minutes\n" % average_time)
-                
-        else:
+            found = True
+            break
+        
+      if found == False
             print("\nRunner not found.\n")
