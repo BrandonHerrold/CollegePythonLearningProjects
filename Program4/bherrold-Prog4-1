@@ -7,6 +7,9 @@
 # into a list of dictionaries using csv.DictReader().
 # runners.txt is formatted as a CSV
 #
+#This file is Maintained on Github:
+#https://github.com/BrandonHerrold/CollegePythonLearningProjects/blob/main/Program4/bherrold-Prog4-1
+#
 # Goal:
 # Allow users to read and write to the runners.txt file.
 # Input will allow 4 choices:
@@ -56,3 +59,52 @@ def main():
             print(input("Press Enter to exit the program..."))
             print("\nHave a good day, goodbye...")
             break
+
+#Function 2 - Which is meant to read the data
+def read_data(filename):
+
+    # Create empty list for runner dictionaries
+    runners = []
+
+    try:
+        #Open file
+        infile = open(filename, "r", newline="")
+
+        #Read as csv-formatting
+        reader = csv.DictReader(infile, fieldnames=["name", "Boston", "Chicago", "New York"])
+
+        #Loops through each row
+        for row in reader:
+            dict = {}
+            dict["name"] = row["Name"]
+            dict["Boston"] = int(row["Boston"])
+            dict["Chicago"] = int(row["Chicago"])
+            dict["New York"] = int(row["New York"])
+
+            #Appends the dictionary to the list
+            runners.append(dict)
+
+    except IOError:
+        print("\nError: runners.txt was unable to open.\n")
+
+    #Return the new appended List
+    return runners
+
+
+#Function 3 - This will display ALL data for the runners
+def display_all_results(runners):
+        if len(runners) == 0:
+            print("\nNo runner data is available.")
+            return
+        
+        #Top line formatting for time displays
+        print("\n%-10s %8s %8s %10s" %  ("Runner", "Boston", " Chicago", "New York"))
+        print("==================================================")
+
+        #Display Loop for each runner in the dictionary
+        for runner in runners:
+            print("%-10s %8s %8s %10s" % (runner["Name"], runner["Boston"], runner["Chicago"], runner["New York"]))
+
+        print()
+
+#Function 4 - Individual Runner Time check
