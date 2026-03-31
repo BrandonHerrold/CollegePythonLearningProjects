@@ -49,18 +49,20 @@ def main():
         elif choice == "2":
             Display_runner_time(runners)
 
-        elif choice == "3":
-            runners = add_runner(runners)
+''' Commenting this out for testing purposes
+#       elif choice == "3":
+#           runners = add_runner(runners)
+#
+#        elif choice == "4":
+#            Store_data_and_close(filename, runners)
+#            print("\n Runner data saved successfully.")
+#
+#            print(input("Press Enter to exit the program..."))
+#            print("\nHave a good day, goodbye...")
+#            break
+'''
 
-        elif choice == "4":
-            Store_data_and_close(filename, runners)
-            print("\n Runner data saved successfully.")
-
-            print(input("Press Enter to exit the program..."))
-            print("\nHave a good day, goodbye...")
-            break
-
-#Function 2 - Which is meant to read the data
+#Function 1 -- Which is meant to read the data
 def read_data(filename):
 
     # Create empty list for runner dictionaries
@@ -91,7 +93,7 @@ def read_data(filename):
     return runners
 
 
-#Function 3 - This will display ALL data for the runners
+#Function 2 -- This will display ALL data for the runners
 def display_all_results(runners):
         if len(runners) == 0:
             print("\nNo runner data is available.")
@@ -107,4 +109,28 @@ def display_all_results(runners):
 
         print()
 
-#Function 4 - Individual Runner Time check
+#Function 3 - Individual Runner Time check and average
+def display_runner_time(runners):
+    if len(runners) == 0:
+        print("\nNo runner data is available.")
+        return
+    
+    #prompt to request runners name
+    runner_name = input("\nPlease enter an existing runners name to search: ")
+
+        #Loop to check for runner in dictionary
+    for runner in runners:    
+        
+         #Check for matching name
+        if runner["Name"].lower() == runner_name.lower():
+                     
+            #Calculate the runners average run time in minutes
+            num_of_races = 3    #Boston, Chicago, New York
+            total_run_times = runner["Boston"] + runner["Chicago"] + runner["New York"]
+            average_time = round(total_run_times / num_of_races)
+
+            #Display the runner name, and then run time
+            print("\n Runner name: %s" % runner["Name"] + ": Average Run time: %d minutes\n" % average_time)
+                
+        else:
+            print("\nRunner not found.\n")
