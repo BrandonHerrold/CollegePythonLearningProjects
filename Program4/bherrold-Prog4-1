@@ -160,30 +160,30 @@ def add_runner(runners):
             print("\n Error: That name already exists, please try again.")
             return runners
         
-    while True:
-            try:
-                #Prompt race time for the new runner.
-                boston_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the Boston Marathon (in minutes): "))
-                chicago_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the Chicago Marathon (in minutes): "))
-                newyork_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the New York Marathon (in minutes): "))
+
+        try:
+            #Prompt race time for the new runner.
+            boston_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the Boston Marathon (in minutes): "))
+            chicago_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the Chicago Marathon (in minutes): "))
+            newyork_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the New York Marathon (in minutes): "))
 
 
-            #This creates the new dictionary reference for the runner
-                d = {}
-                d["Name"] = runner_name
-                d["Boston"] = boston_time_entry
-                d["Chicago"] = chicago_time_entry
-                d["New York"] = newyork_time_entry
+        #This creates the new dictionary reference for the runner
+            d = {}
+            d["Name"] = runner_name
+            d["Boston"] = boston_time_entry
+            d["Chicago"] = chicago_time_entry
+            d["New York"] = newyork_time_entry
 
-                #Appends the new runner to the dictionary.
-                runners.append(d)
+            #Appends the new runner to the dictionary.
+            runners.append(d)
 
-                print("\n   Runner %s has been added successfully. \n" % runner_name)
+            print("\n   Runner %s has been added successfully. \n" % runner_name)
     
-            except ValueError:
-                print("\n   Error: Please enter a valid time (in minutes.)\n")
+        except ValueError:
+            print("\n   Error: Please enter a valid time (in minutes.)\n")
 
-            return runners
+        return runners
 
 #Function 5 - Saving the added runners.
 def store_data_and_exit(filename, runners):
