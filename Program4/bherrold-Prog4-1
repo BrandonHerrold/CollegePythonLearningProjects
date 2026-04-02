@@ -2,13 +2,14 @@
 # CIT 144
 # Program 4 - List of Dictionaries
 # Date: 03/30/2026
+# Last date updated: 04/02/2026
 # About:
 # This program reads runner marathon data from a comma-separated text file
 # into a list of dictionaries using csv.DictReader().
 # runners.txt is formatted as a CSV
 #
-#This file is Maintained on Github:
-#https://github.com/BrandonHerrold/CollegePythonLearningProjects/blob/main/Program4/bherrold-Prog4-1
+#   This file is Maintained on Github:
+#   https://github.com/BrandonHerrold/CollegePythonLearningProjects/blob/main/Program4/bherrold-Prog4-1
 #
 # Goal:
 # Allow users to read and write to the runners.txt file.
@@ -52,18 +53,14 @@ def main():
         elif choice == "2":
             display_runner_time(runners)
 
+        elif choice == "3":
+            runners = add_runner(runners)
 
         elif choice == "4":
             store_data_and_exit(filename, runners)
 
             print(input("Press Enter to exit the program..."))
             break
-
-''' Commenting this out for testing purposes
-#       elif choice == "3":
-#           runners = add_runner(runners)
-# 
-'''
 
 
 #Function 1 - Which is meant to read the data
@@ -148,6 +145,46 @@ def display_runner_time(runners):
     if found == False:
         print("\nRunner not found.\n")
 
+#Function 4 - Adding a new runner, including their times in the order of Boston, Chicago, New York.
+def add_runner(runners):
+
+    #Prompts the user for runners name, and the times in order.
+    runner_name = input("\nPlease enter a name for the runner you would like to add: ")
+    
+    if runner_name == "":
+            print("\n Error: You must enter a name, please try again.")
+            return runners
+    
+    for runner in runners:
+        if runner["Name"].lower() == runner_name.lower():
+            print("\n Error: That name already exists, please try again.")
+            return runners
+       
+        try:
+            #Prompt race time for the new runner.
+            boston_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the Boston Marathon (in minutes): "))
+            chicago_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the Chicago Marathon (in minutes): "))
+            newyork_time_entry = int(input("\nPlease enter the time for " + runner_name + " in the New York Marathon (in minutes): "))
+
+
+        #This creates the new dictionary reference for the runner
+        d = {}
+        d["Name"] = runner_name
+        d["Boston"] = boston_time_entry
+        d["Chicago"] = chicago_time_entry
+        d["New York"] = newyork_time_entry
+
+        #Appends the new runner to the dictionary.
+        runners.append(d)
+
+        print("\nRunner %s has been added successfully." % runner_name)
+    
+    except ValueError:
+        print("\n Error: Please enter a valid time (in minutes.)")
+
+        return runners
+
+#Function 5 - Saving the added runners.
 def store_data_and_exit(filename, runners):
     try:
         #Open file to write to
