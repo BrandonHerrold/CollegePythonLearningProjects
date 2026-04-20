@@ -8,10 +8,6 @@
 #   is meant to interact with sqlite3, and use Python to essentially go through and display chosen option
 #   back to the user. We will also allow the user to add more tickets to the database.
 #
-#
-#
-
-# 
 #   This file is Maintained on Github:
 #   
 # Goal:
@@ -25,29 +21,30 @@
 
 import sqlite3
 
+class Ticket:
+    def __init(self, tid, actual_speed, posted_speed, age, violator_sex):
+        self._tid = tid
+        self._actual_speed = actual_speed
+        self._posted_speed = posted_speed
+        self._age = age
+        self._violator_sex = violator_sex
 
-def databaseLoad():
-   
-    print("Attempting to reach database...")
+    def getMphOver(self):
+        return self._actual_speed - self._posted_speed
+    
+    def displayRow(self):
+        return "%-10d %-12d %-10d %-8d %-15s" % (
+            self._tid,
+            self._actual_speed,
+            self.getMphOver(),
+            self._age,
+            self._violator_sex
+        )
 
-    try:
-        connector = sqlite3.connect("tickets5.db")
 
-        cursor = connector.cursor()
-        cursor.execute("SELECT COUNT(*) FROM tickets")
-        count = cursor.fetchone()[0]
 
-        print("Database connection established."
-              "\nTotal records in tickets database: ", count)
-        
-    except:
-        print("Error: Database not reached, please check folder, and verify database is inside.")
-        return
 
-    # Run welcome AFTER successful connection to sqlite3 db file
-    welcome()
-
-def welcome():
+def introduction():
 
     print('''
         Welcome to the Speed Offender Database Search System.
@@ -59,17 +56,31 @@ def welcome():
         4. Save & Exit
 
         ''')
-    return
-    main()
+    
+def databaseLoad():
+   
+    print("Attempting to reach database...")
+
+    try:
+        connector = sqlite3.connect("tickets5.db")
+        cursor = connector.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM tickets")
+        count = cursor.fetchone()[0]
+
+        print("Database connection established."
+              "\nTotal records in tickets database: ", count)
+        
+        return connector, cursor
+    
+    except sqlite3.Error:
+        print("Error: Database not reached, please check folder, and verify database is inside.")
+        return None, None
 
 def main():
 
+    databaseLoad()
+
     while True:
-        print(welcome())
+        print(introduction())
         choice = input("Please enter your choice, 1, 2, 3, or 4: ")
-
-
-# def displayTicketsAll():  #Ticket Display Function for all Tickets
-
-databaseLoad()
-
