@@ -75,11 +75,11 @@ def displayAllTickets(cursor):
 def addTicket(connector, cursor):
     try:
         actual_speed = int(input("\nPlease enter the violators actual speed: "))
-        posted_speed = int(input("\nPlease enter the posted speed:  "))
-        age = int(input("\nPlease enter the violator's age:   "))
-        violator_sex = input("\nPlease enter the violator sex (Male/Female):    ").strip().title()
+        posted_speed = int(input("\nPlease enter the posted speed: "))
+        age = int(input("\nPlease enter the violator's age: "))
+        violator_sex = input("\nPlease enter the violator sex (Male/Female): ").strip().title()
 
-        if violator_sex != "Male" or violator_sex != "Female":
+        if violator_sex != "Male" and violator_sex != "Female":
             print("\nError: Please Enter Male or Female only.")
             return
         
@@ -144,8 +144,7 @@ def main():
             displayAllTickets(cursor)
         
         elif choice == "2":
-            '''addTicket(connector, cursor)'''
-            print("Function unavailable at this time.")
+            addTicket(connector, cursor)
         
         elif choice == "3":
             '''filterByOffenderSex(cursor)'''
