@@ -2,7 +2,7 @@
 # CIT 144
 # Program 5 - Working with Sqlite3 and Python
 # Date: 04/13/2026
-# Last date updated: 04/13/2026
+# Last date updated: 04/20/2026
 # About:
 #   This program has been assigned to me in order to demonstrate my ability to setup a program that
 #   is meant to interact with sqlite3, and use Python to essentially go through and display chosen option
