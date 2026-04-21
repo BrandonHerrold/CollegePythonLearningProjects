@@ -9,7 +9,7 @@
 #   back to the user. We will also allow the user to add more tickets to the database.
 #
 #   This file is Maintained on Github:
-#   
+#   https://github.com/BrandonHerrold/CollegePythonLearningProjects/tree/main/Program_5
 # Goal:
 # As defined in my coursework requirements:
 #   Be able to read the datable from a database and perform the following:
@@ -41,9 +41,6 @@ class Ticket:
             self._violator_sex
         )
 
-
-
-
 def introduction():
 
     print('''
@@ -56,7 +53,35 @@ def introduction():
         4. Save & Exit
 
         ''')
+
+def displayAllTickets():
+    cursor.execute("SELECT tid, actual_speed, posted_speed, age, violator_sex FROM tickets")
+    rows = cursor.fetchall()
+
+    if len(rows) == 0:
+        print("\nNo tickets found in database. Please add any new tickets, or check file.")
+        return
     
+    print("\n%-10d %-12d %-10d %-8d %-15s" %
+          ("TicketID", "Posted MPH", "MPH Over", "Age", "Violator Sex"))
+    print("==========================================================")
+
+    for row in rows:
+        ticket = Ticket(row[0], row[1], row[2], row[3], row[4],)
+        print(ticket.displayRow())
+
+    print()
+
+
+def saveAndExit():
+                
+        print("\nSaving to database. Please wait...")
+        connector.commit()
+        connector.close()
+            
+        input("\nDatabase saved. Press Enter to exit program.")
+    
+
 def databaseLoad():
    
     print("Attempting to reach database...")
@@ -79,8 +104,28 @@ def databaseLoad():
 
 def main():
 
-    databaseLoad()
+    
+    connector, cursor = databaseLoad()
+    
+    if connector is None or cursor is None:
+        return
+
+    introduction()
 
     while True:
-        print(introduction())
-        choice = input("Please enter your choice, 1, 2, 3, or 4: ")
+        choice = input("\nPlease enter your choice, 1, 2, 3, or 4:  ")
+
+        if choice == "1":
+            displayAllTickets(cursor)
+        
+        elif choice == "2":
+            addTicket(connector, cursor)
+
+        elif choice == "3":
+            filterByOffenderSex(cursor)
+
+        elif choice == "4":
+            saveAndExit()
+
+        else:
+            print("\nError: Invalid choice. Please enter 1, 2, 3 or 4.\n")
