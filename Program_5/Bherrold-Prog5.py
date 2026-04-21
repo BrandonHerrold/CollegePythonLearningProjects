@@ -72,6 +72,33 @@ def displayAllTickets(cursor):
 
     print()
 
+def addTicket(connector, cursor):
+    try:
+        actual_speed = int(input("\nPlease enter the violators actual speed: "))
+        posted_speed = int(input("\nPlease enter the posted speed:  "))
+        age = int(input("\nPlease enter the violator's age:   "))
+        violator_sex = input("\nPlease enter the violator sex (Male/Female):    ").strip().title()
+
+        if violator_sex != "Male" or violator_sex != "Female":
+            print("\nError: Please Enter Male or Female only.")
+            return
+        
+        cursor.execute("INSERT INTO tickets (actual_speed, posted_speed, age, violator_sex) VALUES (?, ?, ?, ?)",
+                      (actual_speed, posted_speed, age, violator_sex)
+        )
+
+        print("Adding ticket to database...")
+        connector.commit()
+        print("\nThe ticket has been added to the database successfully")
+
+    except ValueError:
+        print("\nError: Actual speed, posted speed, and age must be whole numbers. i.e 30, 45, 22, 51")
+    
+    except sqlite3.Error:
+        print("\nError: Ticket could not be added to the database. Please try again...")
+
+
+
 def saveAndExit(connector):
                 
         print("\nSaving to database. Please wait...")
