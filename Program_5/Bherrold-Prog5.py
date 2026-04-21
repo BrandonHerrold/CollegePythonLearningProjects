@@ -22,7 +22,7 @@
 import sqlite3
 
 class Ticket:
-    def __init(self, tid, actual_speed, posted_speed, age, violator_sex):
+    def __init__(self, tid, actual_speed, posted_speed, age, violator_sex):
         self._tid = tid
         self._actual_speed = actual_speed
         self._posted_speed = posted_speed
@@ -35,7 +35,7 @@ class Ticket:
     def displayRow(self):
         return "%-10d %-12d %-10d %-8d %-15s" % (
             self._tid,
-            self._actual_speed,
+            self._posted_speed,
             self.getMphOver(),
             self._age,
             self._violator_sex
@@ -54,7 +54,7 @@ def introduction():
 
         ''')
 
-def displayAllTickets():
+def displayAllTickets(cursor):
     cursor.execute("SELECT tid, actual_speed, posted_speed, age, violator_sex FROM tickets")
     rows = cursor.fetchall()
 
@@ -62,7 +62,7 @@ def displayAllTickets():
         print("\nNo tickets found in database. Please add any new tickets, or check file.")
         return
     
-    print("\n%-10d %-12d %-10d %-8d %-15s" %
+    print("\n%-10s %-12s %-10s %-8s %-15s" %
           ("TicketID", "Posted MPH", "MPH Over", "Age", "Violator Sex"))
     print("==========================================================")
 
@@ -72,15 +72,13 @@ def displayAllTickets():
 
     print()
 
-
-def saveAndExit():
+def saveAndExit(connector):
                 
         print("\nSaving to database. Please wait...")
         connector.commit()
         connector.close()
             
         input("\nDatabase saved. Press Enter to exit program.")
-    
 
 def databaseLoad():
    
@@ -119,13 +117,19 @@ def main():
             displayAllTickets(cursor)
         
         elif choice == "2":
-            addTicket(connector, cursor)
-
+            '''addTicket(connector, cursor)'''
+            print("Function unavailable at this time.")
+        
         elif choice == "3":
-            filterByOffenderSex(cursor)
+            '''filterByOffenderSex(cursor)'''
+            print("Function unavailable at this time.")
 
         elif choice == "4":
-            saveAndExit()
+            saveAndExit(connector)
+            break
 
         else:
             print("\nError: Invalid choice. Please enter 1, 2, 3 or 4.\n")
+
+
+main()
