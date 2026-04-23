@@ -2,7 +2,7 @@
 # CIT 144
 # Program 5 - Working with Sqlite3 and Python
 # Date: 04/13/2026
-# Last date updated: 04/20/2026
+# Last date updated: 04/23/2026
 # About:
 #   This program has been assigned to me in order to demonstrate my ability to setup a program that
 #   is meant to interact with sqlite3, and use Python to essentially go through and display chosen option
@@ -44,7 +44,7 @@ class Ticket:
 def introduction():
 
     print('''
-        Welcome to the Speed Offender Database Search System.
+            Welcome to the Speed Offender Database.
           With this program you have the following options:
         
         1. Display all Tickets
@@ -97,7 +97,32 @@ def addTicket(connector, cursor):
     except sqlite3.Error:
         print("\nError: Ticket could not be added to the database. Please try again...")
 
+def filterByOffenderSex(cursor):
+    choice_sex = input("\nPlease enter Male or Female to filter the tickets:").strip().title()
 
+    if choice_sex != "Male" and choice_sex != "Female":
+        print("\nError: Please enter Male or Female only.")
+        return
+    
+    cursor.execute(
+        "SELECT tid, actual_speed, posted_speed, age, violator_sex FROM tickets WHERE violator_sex = ?", (choice_sex,)
+    )
+
+    rows = cursor.fetchall()
+
+    if len(rows) == 0:
+        print("\nNo tickets match your request")
+        return
+    
+    print("\n\n%-10s %-12s %-10s %-8s %-15s" %
+          ("TicketID", "Posted MPH", "MPH Over", "Age", "Violator Sex"))
+    print("==========================================================")
+
+    for row in rows:
+        ticket = Ticket(row[0], row[1], row[2], row[3], row[4],)
+        print(ticket.displayRow())
+
+    print()
 
 def saveAndExit(connector):
                 
@@ -109,7 +134,7 @@ def saveAndExit(connector):
 
 def databaseLoad():
    
-    print("Attempting to reach database...")
+    print("Attempting to reach database...\n")
 
     try:
         connector = sqlite3.connect("tickets5.db")
@@ -118,7 +143,7 @@ def databaseLoad():
         cursor.execute("SELECT COUNT(*) FROM tickets")
         count = cursor.fetchone()[0]
 
-        print("Database connection established."
+        print("\nDatabase connection established."
               "\nTotal records in tickets database: ", count)
         
         return connector, cursor
@@ -147,8 +172,7 @@ def main():
             addTicket(connector, cursor)
         
         elif choice == "3":
-            '''filterByOffenderSex(cursor)'''
-            print("Function unavailable at this time.")
+           filterByOffenderSex(cursor)
 
         elif choice == "4":
             saveAndExit(connector)
